@@ -1,0 +1,35 @@
+import express, { Application } from 'express';
+import logger from 'morgan';
+import cors from 'cors';
+import { AppDataSource } from './config/db.config';
+import vecinoRoutes from './routes/vecino.route';
+import sectorRoutes from './routes/sector.route';
+import usuarioRoutes from './routes/usuario.route';
+import subsectorRoutes from './routes/subsector.route';
+import categoriaRoutes from './routes/categoria.route';
+import alertaRoutes from './routes/alerta.route';
+
+const app: Application = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); 
+app.use(logger('dev'));
+app.use(cors());
+
+app.use('/api/v1/vecinos', vecinoRoutes);
+app.use('/api/v1/sectores', sectorRoutes);
+app.use('/api/v1/subsectores', subsectorRoutes);
+app.use('/api/v1/usuarios', usuarioRoutes);
+app.use('/api/v1/categorias', categoriaRoutes);
+app.use('/api/v1/alertas', alertaRoutes);
+
+export const startServer = async () => {
+    try {
+        await AppDataSource.initialize();
+        console.log('Conexión a la base de datos establecida correctamente');
+    } catch (error) {
+        console.error('Error al conectar a la base de datos:', error);
+    }
+};
+
+export default app;
