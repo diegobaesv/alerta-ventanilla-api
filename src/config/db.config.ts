@@ -9,6 +9,7 @@ import { Alerta } from '../entities/alerta';
 import { Categoria } from '../entities/categoria';
 import { Serenazgo } from '../entities/serenazgo';
 import { Unidad } from '../entities/unidad';
+import { Subcategoria } from '../entities/subcategoria';
 
 export const AppDataSource = new DataSource({
     type: DB_TYPE as any,
@@ -19,6 +20,6 @@ export const AppDataSource = new DataSource({
     database: DB_DATABASE,
     synchronize: false,
     logging: DB_LOGGING === 'true',
-    entities: [Sector, Subsector, Usuario, Vecino, Alerta, Categoria,Serenazgo,Unidad],
+    entities: [Sector, Subsector, Usuario, Vecino, Alerta, Categoria,Serenazgo,Unidad, Subcategoria],
 });
     

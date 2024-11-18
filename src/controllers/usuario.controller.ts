@@ -8,6 +8,7 @@ export const login = async (req: Request, res: Response): Promise<ResponseModel>
         const usuario = await usuarioService.login(documentoIdentidad, clave, tipoUsuario);
         return res.json(ResponseModel.success(usuario));
     } catch (error) {
+        console.error('usuario.controller::login', error);
         return res.status(500).json(ResponseModel.error(error.message));
     }
 }

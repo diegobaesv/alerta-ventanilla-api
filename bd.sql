@@ -111,3 +111,30 @@ INSERT INTO categorias (nombre, descripcion, icono) VALUES
 ('Accidente', 'Accidente Automovilístico', 'directions_car'),
 ('Robo', 'Robo a Persona o Propiedad', 'security'),
 ('Desastre Natural', 'Inundación o Terremoto', 'landslide');
+
+
+/*** BLOQUE II 14-11-2024 ****/
+
+CREATE TABLE subcategorias (
+  id_subcategoria SERIAL PRIMARY KEY,
+  id_categoria INTEGER REFERENCES categorias(id_categoria),
+  nombre VARCHAR(100),
+  descripcion VARCHAR(200),
+  icono VARCHAR(200),
+  estado_auditoria CHAR(1) DEFAULT '1',
+  fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO subcategorias (nombre, descripcion, icono, id_categoria) VALUES
+('Sub Categoria1', null, 'family_restroom',1),
+('Sub Categoria2', 'descripcion detallada', 'local_fire_department',1),
+('Sub Categoria3', null, 'directions_car',2),
+('Sub Categoria4', null, 'security',2),
+('Sub Categoria5', 'descripcion detallada 2', 'landslide',2);
+
+
+alter table alertas 
+add id_subcategoria integer references subcategorias(id_subcategoria);
+
+INSERT INTO usuarios (documento_identidad, clave, apellido_paterno, apellido_materno, nombres, tipo_usuario)
+('88888888','$2b$10$UTQCbi5WOw2P4SqrcHjQT.3eQjeTS9KnUTEadxF/tzjXVlHkwdyCm','Admin','Admin','Admin','A');

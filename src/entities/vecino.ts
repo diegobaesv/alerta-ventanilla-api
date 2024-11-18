@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Usuario } from "./usuario";
 import { Subsector } from "./subsector";
 
@@ -7,13 +7,13 @@ export class Vecino {
   @PrimaryGeneratedColumn({ name: 'id_vecino' })
   idVecino: number;
 
-  @ManyToOne(() => Usuario)
+  @OneToOne(() => Usuario)
   @JoinColumn({ name: 'id_usuario' })
   usuario: Usuario;
 
   @ManyToOne(() => Subsector)
   @JoinColumn({ name: 'id_subsector' })
-  subsector: Subsector;
+  subsector: Subsector; 
 
   @Column({ name: 'telefono' })
   telefono: string;
@@ -24,7 +24,7 @@ export class Vecino {
   @Column({ name: 'latitud' })
   latitud: string;
 
-  @Column({ name: 'longitud' })
+  @Column({ name: 'longitud' }) 
   longitud: string;
 
   @Column({ name: 'estado_auditoria' })

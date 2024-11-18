@@ -1,0 +1,53 @@
+<aside class="h-screen" style="width: 300px; background-color: #0164b5;">
+
+  <div class="flex items-center justify-between gap-2 px-6 py-5" >
+    <a href="/home" class="w-full flex justify-center">
+      <img src="/images/logo_vent.jpg" class="w-full" style="height: 50px; width: auto;" alt="Logo" />
+    </a>
+
+    <button class="lg:hidden">
+      <i class="fas fa-bars text-white"></i>
+    </button>
+  </div>
+
+  <div class="flex flex-col overflow-y-auto">
+
+    <nav class="mt-5 px-4 py-4">
+
+      <div>
+        <h3 class="mb-4 ml-4 text-sm font-medium text-gray-100">MENU</h3>
+
+        <ul class="mb-6 flex flex-col gap-1.5">
+
+          <% items.forEach(function(item){  %>
+            <li>
+              <a class="group relative flex items-center justify-between gap-2.5 rounded-sm px-4 py-2 font-medium text-gray-100 sidebar-menuitem1"
+              :class="{ 'selected': isSelected('<%= item.name %>', <%= JSON.stringify(item.items.map(subitem => subitem.route)) %>) }"
+              @click.prevent="menu_item_selected = (menu_item_selected === '<%= item.name %>' ? '':'<%= item.name %>')">
+                
+                <span><i class="<%=item.icon%> mr-3"></i><%= item.name %></span>
+                <i :class="(menu_item_selected  === '<%= item.name %>') ? 'bx bx-chevron-up' :'bx bx-chevron-down'" ></i>
+              </a>  
+              
+              <div class="translate transform overflow-hidden" :class="isSelected('<%= item.name %>', <%= JSON.stringify(item.items.map(subitem => subitem.route)) %>) ? 'block' :'hidden'">
+                <ul class="mb-5.5 mt-4 flex flex-col gap-2.5 pl-6">
+                  <% item.items.forEach(function(subitem){ %>
+                    <li>
+                      <a  
+                      :class="{ 'selected': isSubItemSelected('<%= subitem.route %>') }"
+                      class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 text-bodydark1 duration-300 ease-in-out sidebar-menuitem2"
+                        href="<%= subitem.route %>"><%= subitem.name %></a>
+                    </li>
+                  <% }); %>
+                </ul>
+              </div>  
+            </li>
+          <% }); %>
+
+
+        </ul>
+      </div>
+    </nav>
+
+  </div>
+</aside>

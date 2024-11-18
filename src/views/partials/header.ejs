@@ -1,0 +1,27 @@
+<header class="sticky top-0 z-50 flex w-full bg-white drop-shadow-md dark:bg-gray-800">
+
+  <div class="flex flex-grow items-center justify-end px-4 py-4 shadow-md md:px-6 2xl:px-11">
+    <div class="relative" x-data="{ dropdownOpen: false }">
+      <button @click="dropdownOpen = !dropdownOpen" class="flex items-center focus:outline-none">
+        <span class="hidden lg:block text-right mr-2">
+          <span class="block text-sm font-medium text-gray-900">Admin</span>
+          <span class="block text-xs text-gray-500">Administrador</span>
+        </span>
+        <img class="h-10 w-10 rounded-full"
+          src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436178.jpg?size=338&ext=jpg&ga=GA1.1.1826414947.1720915200&semt=ais_user"
+          alt="User">
+        <svg class="ml-2 w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd" />
+        </svg>
+      </button>
+
+      <div x-show="dropdownOpen" @click.away="dropdownOpen = false"
+        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg overflow-hidden z-20">
+        <!-- <a href="mi-perfil" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mi Perfil</a> -->
+        <a id="btn-logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
+      </div>
+    </div>
+  </div>
+</header>

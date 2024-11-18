@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/logo_app.jpg">
+    <title>Multiverse Admin | TheBeast</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+</head>
+<body class="bg-gray-100 pl-5 pr-5">
+
+<div class="min-h-screen flex items-center justify-center">
+    
+    <div class="flex w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Left side with image and text -->
+        <div class="hidden md:flex md:w-1/2 flex-col items-center justify-center p-8" style="background-color: #0164b5;">
+            <img src="images/logo_vent.jpg" alt="Logo" style="height: 80px;" class="mb-4">
+            <h1 class="text-white text-3xl font-bold mb-2">Municipalidad Ventanilla</h1>
+            <p class="text-white text-lg text-center">Central de Emergencias</p>
+        </div>
+        <div class="flex flex-col w-full md:w-1/2 p-8" >
+            <div class="md:flex md:w-1/2 lg:hidden md:hidden flex-col items-center justify-center p-8 rounded-2xl" style="background-color: #0164b5;">
+                <div class="flex justify-center">
+                    <img src="images/logo_vent.jpg" alt="Logo" style="height: 80px; width: auto;" class="w-full text-center">
+
+                </div>
+                <h1 class="text-white text-center text-white  text-3xl font-bold mb-2">Municipalidad Ventanilla</h1>
+                <p class="text-white text-lg text-white  text-center">Central de Emergencias</p>
+            </div>
+            <h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">Iniciar sesión</h2>   
+            <!-- <p class="text-lg mb-6 text-gray-600 text-center">Bienvenido</p> -->
+            <form  id="loginForm">
+                <div class="mb-4">
+                    <label for="usuario" class="block text-gray-700 font-bold mb-2">Usuario</label>
+                    <div class="flex items-center border rounded-lg p-2">
+                        <input type="text" id="usuario" name="usuario" class="w-full p-2 focus:outline-none" required>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label for="clave" class="block text-gray-700 font-bold mb-2">Contraseña</label>
+                    <div class="flex items-center border rounded-lg p-2">
+                        <input type="password" id="clave" name="clave" class="w-full p-2 focus:outline-none" required>
+                    </div>
+                </div>
+
+                <button class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 focus:outline-none">Ingresar</button>
+                <p id="error-login" class="hidden rounded-lg text-center p-2 mt-3 bg-red-300 text-red-900">Usuario y/o contraseña incorrectos</p>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+
+
+<script>
+    document.getElementById('usuario').focus();
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Evitar el envío tradicional del formulario
+
+        const usuario = document.getElementById('usuario').value;
+        const clave = document.getElementById('clave').value;
+
+        const response = await fetch('/api/v1/usuarios/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ documentoIdentidad: usuario, clave, tipoUsuario: 'A' })
+        });
+
+        const result = await response.json();
+
+        console.log('result',result);
+
+        if(result.success && result.status == 200) {    
+            window.location.href = '/home';
+        } else {
+            document.getElementById('error-login').style.display = 'block';
+            document.getElementById('usuario').value = '';
+            document.getElementById('clave').value = '';
+            document.getElementById('usuario').focus();
+        }
+        
+    });
+</script>
+<!-- <script src="js/alpine-login.js" defer></script> -->
+</html>

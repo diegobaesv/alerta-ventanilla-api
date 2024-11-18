@@ -10,3 +10,13 @@ export const listarCategorias = async (req: Request, res: Response) => {
         return res.status(500).json(ResponseModel.error(error.message));
     }
 }
+
+export const insertarCategoria = async (req: Request, res: Response) => {
+    try {
+        const categoriaData = req.body;
+        const categoria = await categoriaService.insertarCategoria(categoriaData);
+        return res.json(ResponseModel.success(categoria));
+    } catch (error) {
+        return res.status(500).json(ResponseModel.error(error.message));
+    }
+}

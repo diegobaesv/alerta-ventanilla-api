@@ -1,0 +1,221 @@
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table id="dataTable" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Id
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Documento Identidad
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Apellido Paterno
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Apellido Materno
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Nombres
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Telefono
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Unidad
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Sector
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    SubSector
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Dirección
+                </th>
+                <th scope="col" class="px-6 py-3">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-white border-b bg-yellow-100">
+                <form id="formSerenazgo">
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    </td>
+                    <td class="px-6 py-4">
+                        <input class="border rounded p-1" type="text" value="" name="documentoIdentidad" required>
+                    </td>
+                    <td class="px-6 py-4">
+                        <input class="border rounded p-1" type="text" value="" name="apellidoPaterno" required>
+                    </td>
+                    <td class="px-6 py-4">
+                        <input class="border rounded p-1" type="text" value="" name="apellidoMaterno" required>
+                    </td>
+                    <td class="px-6 py-4">
+                        <input class="border rounded p-1" type="text" value="" name="nombres" required>
+                    </td>
+                    <td class="px-6 py-4">
+                        <input class="border rounded p-1" type="text" value="" name="telefono" required>
+                    </td>
+                    <td class="px-6 py-4">
+                        <select name="idUnidad" id="unidadSelect" style="min-width: 150px;"
+                            class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <% for( let j=0; j < metadata.unidades.length; j++ ) { %>
+                                <option value="<%=metadata.unidades[j].idUnidad%>">
+                                    <%=metadata.unidades[j].nombre%>
+                                </option>
+                                <% } %>
+                        </select>
+                    </td>
+                    <td class="px-6 py-4">
+                        <select name="idSector" id="sectorSelect" style="min-width: 150px;"
+                            class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            onchange="
+                                    const subsectorSelect = document.getElementById('subsectorSelect');
+                                    fetch(`/api/v1/subsectores/sector/${this.value}`)
+                                        .then(response => {
+                                            if (!response.ok) throw new Error('Error al obtener los subsectores');
+                                            return response.json();
+                                        })
+                                        .then(response => {
+                                            if (!response.success) {
+                                                return;
+                                            }
+                                            const subsectores = response.data;
+                                            subsectorSelect.innerHTML = '';
+                                            subsectores.forEach(subsector => {
+                                                subsectorSelect.innerHTML += `<option value='${subsector.idSubsector}'>${subsector.nombre}</option>`;
+                                            });
+                                        })
+                                        .catch(error => {
+                                            console.error('Error:', error);
+                                            subsectorSelect.innerHTML = '';
+                                        });
+                                ">
+                            <option value="">Seleccione...</option>
+                            <% for( let j=0; j < metadata.sectores.length; j++ ) { %>
+                                <option value="<%=metadata.sectores[j].idSector%>">
+                                    <%=metadata.sectores[j].nombre%>
+                                </option>
+                            <% } %>
+                        </select>
+                    </td>
+                    <td class="px-6 py-4">
+                        <select name="subsector[idSubsector]" id="subsectorSelect" style="min-width: 150px;" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </select>
+                    </td>
+                    <td class="px-6 py-4">
+                        <input class="border rounded p-1" type="text" value="" name="direccion" required>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <button type="button" class="font-medium p-1 rounded hover:bg-gray-200 text-gray-700" onclick="
+                            try {
+                                const form = document.getElementById('formSerenazgo');
+
+                                if (!form.checkValidity()) {
+                                    form.reportValidity();
+                                    return;
+                                }
+                                const data = {
+                                    telefono: document.querySelector('input[name=telefono]').value,
+                                    direccion: document.querySelector('input[name=direccion]').value,
+                                    usuario: {
+                                        documentoIdentidad: document.querySelector('input[name=documentoIdentidad]').value,
+                                        apellidoPaterno: document.querySelector('input[name=apellidoPaterno]').value,
+                                        apellidoMaterno: document.querySelector('input[name=apellidoMaterno]').value,
+                                        nombres: document.querySelector('input[name=nombres]').value,
+                                    },
+                                    unidad: {
+                                        idUnidad: document.getElementById('unidadSelect').value
+                                    },
+                                    sector: {
+                                        idSector: document.getElementById('sectorSelect').value
+                                    },
+                                    subsector: {
+                                        idSubsector: document.getElementById('subsectorSelect').value
+                                    }
+                                };
+    
+                                fetch('/api/v1/serenazgos', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(data)
+                                })
+                                .then(response => {
+                                    if (!response.ok) throw new Error('Error al guardar los datos');
+                                    return response.json();
+                                })
+                                .then(result => {
+                                    if (result.success) {
+                                        alert('Datos guardados exitosamente');
+                                        window.location.reload();
+                                    } else {
+                                        alert('Error: ' + result.message);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('Ocurrió un error al guardar los datos');
+                                });
+                            } catch (error) {
+                                console.error('Error:', error);
+                                alert('Ocurrió un error al guardar los datos');
+                            }
+                        "><i class="text-xl bx bxs-save "></i></button>
+                    </td>
+                </form>
+            </tr>
+            <% if (!hasData) { %>
+                <tr
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <th scope="row" colspan="11"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        No se han encontrado registros
+                    </th>
+                </tr>
+            <% } %>
+            <% if (hasData) { %>
+                <% for( let i=0; i < data.length; i++ ) { %>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <%= data[i].idSerenazgo %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= data[i].usuario.documentoIdentidad %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= data[i].usuario.apellidoPaterno %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= data[i].usuario.apellidoMaterno %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= data[i].usuario.nombres %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= data[i].telefono %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= data[i].unidad.nombre %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= data[i].nombre %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= data[i].subsector.nombre %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= data[i].direccion %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <button type="button" class="font-medium p-1 rounded hover:bg-gray-200 text-gray-700"><i class="text-red-500 bx bxs-trash"></i></button>
+                        </td>
+                    </tr>
+                <% } %>
+            <% } %>
+        </tbody>
+    </table>
+
+
+</div>

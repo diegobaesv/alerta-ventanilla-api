@@ -1,0 +1,85 @@
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table  id="dataTable" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Id
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Documento Identidad
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Apellido Paterno
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Apellido Materno
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Nombres
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Telefono
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    SubSector
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Dirección
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Ubicación
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (!hasData) { %>
+                <tr  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <th scope="row" colspan="9"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        No se han encontrado registros
+                    </th>
+                </tr>
+        
+                <% } %>
+                    <% if (hasData) { %>
+                        <% for( let i=0; i < data.length; i++ ) { %>
+                            
+                                <tr
+                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <th scope="row"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <%= data[i].idVecino %>
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <%= data[i].usuario.documentoIdentidad %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <%= data[i].usuario.apellidoPaterno %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <%= data[i].usuario.apellidoMaterno %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <%= data[i].usuario.nombres %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <%= data[i].telefono %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <%= data[i].subsector.nombre %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <%= data[i].direccion %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <% if(data[i].latitud && data[i].longitud) { %>
+                                            <a href="https://www.google.com/maps/search/?api=1&query=<%= data[i].latitud %>,<%= data[i].longitud %>" target="_blank" class="text-blue-500 hover:text-blue-600">Google Map</a>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                        <% } %>
+                    <% } %>
+        </tbody>
+    </table>
+
+</div>

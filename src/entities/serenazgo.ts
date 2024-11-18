@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Subsector } from "./subsector";
 import { Usuario } from "./usuario";
 import { Unidad } from "./unidad";
@@ -8,7 +8,7 @@ export class Serenazgo {
   @PrimaryGeneratedColumn({ name: 'id_serenazgo' })
   idSerenazgo: number;
 
-  @ManyToOne(() => Usuario)
+  @OneToOne(() => Usuario)
   @JoinColumn({ name: 'id_usuario' })
   usuario: Usuario;
 

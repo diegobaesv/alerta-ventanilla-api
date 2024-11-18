@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Vecino } from './vecino';
+import { Serenazgo } from './serenazgo';
 
 @Entity('usuarios')
 export class Usuario {
@@ -28,4 +30,10 @@ export class Usuario {
 
   @CreateDateColumn({ name: 'fecha_creacion' })
   fechaCreacion: Date;
+
+  @OneToOne(() => Vecino, vecino => vecino.usuario)
+  vecino: Vecino;
+
+  @OneToOne(() => Serenazgo, serenazgo => serenazgo.usuario)
+  serenazgo: Serenazgo;
 }

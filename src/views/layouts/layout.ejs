@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alertas WhatsApp | TheBeast</title>
+    <link rel="icon" href="images/logo_app.jpg">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script> -->
+    <!-- <script defer src="js/tables.js"></script> -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('modalHandler', () => ({
+                isModalOpen: false,
+                modalContent: '',
+                showModal(content) {
+                    this.modalContent = content;
+                    this.isModalOpen = true;
+                },
+                closeModal() {
+                    this.isModalOpen = false;
+                }
+            }))
+        });
+        function getCurrentRoute() {
+            const path = window.location.pathname;
+            return path.split('/').pop();
+        }
+
+    </script>
+</head>
+
+<body 
+    style="background-color: #f1f5f9;"
+    x-data="{
+        page: '',
+        menu_item_selected: '',
+        isSelected(itemName, itemRoutes) {
+            return this.menu_item_selected === itemName || itemRoutes.includes(this.page);
+        },
+        isSubItemSelected(route) {
+            return this.page === route;
+        },
+        isModalOpen: false,
+                modalContent: '',
+                showModal(content) {
+                    this.modalContent = unescape(content);
+                    this.isModalOpen = true;    
+                },
+                closeModal() {
+                    this.isModalOpen = false;
+                }
+    }" 
+    x-init="page = getCurrentRoute();"
+    >
+
+    <div class="flex h-screen overflow-hidden">
+        <%- include('../partials/sidebar', 
+            { items: [
+                {
+                    name: 'Personal',
+                    icon: 'bx bx-user',
+                    items: [
+                        {
+                            name: 'Vecinos',
+                            route: 'vecinos'
+                        },
+                        {
+                            name: 'Serenazgos',
+                            route: 'serenazgos'
+                        }
+                    ]
+                },
+                {
+                    name: 'Mantenimiento',
+                    icon: 'bx bxs-wrench',
+                    items: [
+                        {
+                            name: 'Categorias',
+                            route: 'categorias'
+                        },
+                        {
+                            name: 'Sectores',
+                            route: 'sectores'
+                        },
+                        {
+                            name: 'Subsectores',
+                            route: 'subsectores'
+                        }
+                    ]
+                },
+                {
+                    name: 'Reportes',
+                    icon: 'bx bx-bar-chart-alt-2',
+                    items: [
+                        {
+                            name: 'Reportes1',
+                            route: 'reportes1'
+                        },
+                        {
+                            name: 'Reportes2',
+                            route: 'reportes2'
+                        }
+                    ]
+                },
+                /*{
+                    name: 'Configuración',
+                    icon: 'bx bx-wrench',
+                    items: [
+                        {
+                            name: 'Mi Perfil',
+                            route: 'mi-perfil'
+                        },
+                        {
+                            name: 'Configuración general',
+                            route: 'configuracion-general'
+                        }
+                    ]
+                },*/
+            ]}) %>
+            <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+                <%- include('../partials/header') %>
+                    <main>
+                        <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+                            <div id="error-layout" class="rounded p-1 mb-2 bg-red-200 text-red-900 text-center" style="display: none; opacity: 1; transition: opacity 2s ease-out; "></div>
+                            <%- content %>
+                            
+                        </div>
+                    </main>
+            </div>
+    </div>
+
+    
+    <!-- <div x-show="isModalOpen" @click.away="closeModal()" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white p-6 rounded shadow-md w-1/2">
+            <h2 class="text-xl font-bold mb-4">Información</h2>
+            <p class="mb-4">
+                <span x-text="modalContent"></span>
+            </p>
+            <button @click="closeModal()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Cerrar</button>
+        </div>
+    </div> -->
+
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorMessage = urlParams.get('error');
+        const errorLayout = document.getElementById('error-layout');
+
+        if (errorMessage) {
+            // Mostrar el mensaje de error
+            errorLayout.textContent = decodeURIComponent(errorMessage);
+            errorLayout.style.display = 'block';
+
+            // Ocultar el mensaje después de 15 segundos
+            setTimeout(function () {
+                errorLayout.style.display = 'none';
+            }, 5000);
+        } else {
+            // Asegurarse de que el div esté oculto si no hay error
+            errorLayout.style.display = 'none';
+        }
+    });
+
+
+    document.getElementById('btn-logout').addEventListener('click', async function(event) {
+
+        console.log('btn-logout::click');
+
+        const response = await fetch('/api/auth/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        console.log(response)
+
+        const result = await response.json();
+        console.log('result',result);
+
+        if(result.success && result.status == 200) {
+            window.location.href = result.data.redirectUrl;
+        } 
+    });
+
+    function changeViewPassword(id_input){
+        const pass = document.getElementById(id_input);
+        if (pass.type === "password") {
+            pass.type = "text";
+        } else {
+            pass.type = "password";
+        }
+    }
+
+    
+</script>
+
+</html>
