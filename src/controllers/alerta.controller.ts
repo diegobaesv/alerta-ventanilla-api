@@ -9,6 +9,19 @@ export const insertarAlerta = async (req: Request, res: Response): Promise<Respo
         const nuevaAlerta = await alertaService.insertarAlerta(alertaData);
         return res.json(ResponseModel.success(nuevaAlerta));
     } catch (error) {
+        console.log(error);
         return res.status(500).json(ResponseModel.error(error.message));
     }    
+}
+
+export const asignarSereno = async (req: Request, res: Response): Promise<ResponseModel> => {
+    try {
+        const idAlerta = parseInt(req.params.idAlerta);
+        const alertaData: Partial<Alerta> = req.body;
+        const alertaActualizada = await alertaService.asignarSereno(idAlerta, alertaData);
+        return res.json(ResponseModel.success(alertaActualizada));
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(ResponseModel.error(error.message));
+    }
 }

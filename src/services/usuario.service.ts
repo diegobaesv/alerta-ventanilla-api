@@ -18,7 +18,7 @@ export const login = async (documentoIdentidad: string, clave: string, tipoUsuar
             tipoUsuario: tipoUsuario, 
             estadoAuditoria: '1' 
         },
-        relations: ['vecino', 'vecino.subsector'] 
+        relations: ['vecino', 'vecino.subsector','vecino.usuario'] 
     });    
     if (!usuario || !(await comparePassword(clave, usuario.clave))) {
         throw new Error('Usuario o contraseña incorrectos');

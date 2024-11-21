@@ -6,13 +6,10 @@
                     Id
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Sector
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Nombre
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Descripcion
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Icono
                 </th>
                 <th scope="col" class="px-6 py-3">
                 </th>
@@ -20,22 +17,24 @@
         </thead>
         <tbody>
             <tr class="bg-white border-b bg-yellow-100">
-                <form id="formCategoria">
+                <form id="formInsert">
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    </td>
+                    <td class="px-6 py-4">
+                        <select class="border rounded p-1" name="idSector" required>
+                            <option value="">Seleccione un sector</option>
+                            <% for( let i=0; i < metadata.sectores.length; i++ ) { %>
+                                <option value="<%= metadata.sectores[i].idSector %>"><%= metadata.sectores[i].nombre %></option>
+                            <% } %>
+                        </select>
                     </td>
                     <td class="px-6 py-4">
                         <input class="border rounded p-1" type="text" value="" name="nombre" required>
                     </td>
-                    <td class="px-6 py-4">
-                        <input class="border rounded p-1" type="text" value="" name="descripcion" required>
-                    </td>
-                    <td class="px-6 py-4">
-                        <input class="border rounded p-1" type="text" value="" name="icono" required>
-                    </td>
                     <td class="px-6 py-4 text-right">
                         <button type="button" class="font-medium p-1 rounded hover:bg-gray-200 text-gray-700" onclick="
                             try {
-                                const form = document.getElementById('formCategoria');
+                                const form = document.getElementById('formInsert');
 
                                 if (!form.checkValidity()) {
                                     form.reportValidity();
@@ -43,11 +42,12 @@
                                 }
                                 const data = {
                                     nombre: document.querySelector('input[name=nombre]').value,
-                                    descripcion: document.querySelector('input[name=descripcion]').value,
-                                    icono: document.querySelector('input[name=icono]').value,
+                                    sector: {
+                                        idSector: document.querySelector('select[name=idSector]').value
+                                    }
                                 };
     
-                                fetch('/api/v1/categorias', {
+                                fetch('/api/v1/subsectores', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json'
@@ -91,17 +91,13 @@
                 <% for( let i=0; i < data.length; i++ ) { %>
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            <%= data[i].idCategoria %>
+                            <%= data[i].idSector %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= data[i].sector.nombre %>
                         </td>
                         <td class="px-6 py-4">
                             <%= data[i].nombre %>
-                        </td>
-                        <td class="px-6 py-4">
-                            <%= data[i].descripcion %>
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="material-icons"><%= data[i].icono %></span>
-                            <%= data[i].icono %>
                         </td>
                         <td class="px-6 py-4">
                             <!-- <button type="button" class="font-medium p-1 rounded hover:bg-gray-200 text-gray-700"><i class="text-red-500 bx bxs-trash"></i></button> -->

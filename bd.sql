@@ -136,5 +136,7 @@ INSERT INTO subcategorias (nombre, descripcion, icono, id_categoria) VALUES
 alter table alertas 
 add id_subcategoria integer references subcategorias(id_subcategoria);
 
-INSERT INTO usuarios (documento_identidad, clave, apellido_paterno, apellido_materno, nombres, tipo_usuario)
+INSERT INTO usuarios (documento_identidad, clave, apellido_paterno, apellido_materno, nombres, tipo_usuario) values
 ('88888888','$2b$10$UTQCbi5WOw2P4SqrcHjQT.3eQjeTS9KnUTEadxF/tzjXVlHkwdyCm','Admin','Admin','Admin','A');
+
+insert into unidades (nombre) values ('Unidad 1'),('Unidad 2');

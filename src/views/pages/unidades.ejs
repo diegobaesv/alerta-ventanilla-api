@@ -9,33 +9,21 @@
                     Nombre
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Descripcion
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Icono
-                </th>
-                <th scope="col" class="px-6 py-3">
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr class="bg-white border-b bg-yellow-100">
-                <form id="formCategoria">
+                <form id="formInsert">
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     </td>
                     <td class="px-6 py-4">
                         <input class="border rounded p-1" type="text" value="" name="nombre" required>
                     </td>
-                    <td class="px-6 py-4">
-                        <input class="border rounded p-1" type="text" value="" name="descripcion" required>
-                    </td>
-                    <td class="px-6 py-4">
-                        <input class="border rounded p-1" type="text" value="" name="icono" required>
-                    </td>
                     <td class="px-6 py-4 text-right">
                         <button type="button" class="font-medium p-1 rounded hover:bg-gray-200 text-gray-700" onclick="
                             try {
-                                const form = document.getElementById('formCategoria');
+                                const form = document.getElementById('formInsert');
 
                                 if (!form.checkValidity()) {
                                     form.reportValidity();
@@ -43,11 +31,9 @@
                                 }
                                 const data = {
                                     nombre: document.querySelector('input[name=nombre]').value,
-                                    descripcion: document.querySelector('input[name=descripcion]').value,
-                                    icono: document.querySelector('input[name=icono]').value,
                                 };
     
-                                fetch('/api/v1/categorias', {
+                                fetch('/api/v1/unidades', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json'
@@ -91,20 +77,44 @@
                 <% for( let i=0; i < data.length; i++ ) { %>
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            <%= data[i].idCategoria %>
+                            <%= data[i].idUnidad %>
                         </td>
                         <td class="px-6 py-4">
                             <%= data[i].nombre %>
                         </td>
                         <td class="px-6 py-4">
-                            <%= data[i].descripcion %>
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="material-icons"><%= data[i].icono %></span>
-                            <%= data[i].icono %>
-                        </td>
-                        <td class="px-6 py-4">
-                            <!-- <button type="button" class="font-medium p-1 rounded hover:bg-gray-200 text-gray-700"><i class="text-red-500 bx bxs-trash"></i></button> -->
+                            <!-- <button type="button" class="font-medium p-1 rounded hover:bg-gray-200 text-gray-700" onclick="
+                                try {
+                                    //preguntar si eliminar registro
+                                    if (!confirm('¿Está seguro de eliminar el registro?')) {
+                                        return;
+                                    }
+                                    fetch('/api/v1/unidades/<%= data[i].idUnidad %>', {
+                                        method: 'DELETE',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        }
+                                    }).then(response => {
+                                        if (!response.ok) throw new Error('Error al eliminar los datos');
+                                        return response.json();
+                                    })
+                                    .then(result => {
+                                        if (result.success) {
+                                            alert('Datos eliminados exitosamente');
+                                            window.location.reload();
+                                        } else {
+                                            alert('Error: ' + result.message);
+                                        }
+                                    }).catch(error => {
+                                        console.error('Error:', error);
+                                        alert('Ocurrió un error al eliminar los datos');
+                                    });
+                                } catch (error) {
+                                    console.error('Error:', error);
+                                    alert('Ocurrió un error al eliminar los datos');
+                                }
+                                "
+                            ><i class="text-red-500 bx bxs-trash"></i></button> -->
                         </td>
                     </tr>
                 <% } %>

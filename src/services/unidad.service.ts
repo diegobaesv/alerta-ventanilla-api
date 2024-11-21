@@ -8,3 +8,12 @@ export const listarUnidades = async () => {
         where: { estadoAuditoria: '1' }
     });
 };
+
+export const insertarUnidad = async (data: Partial<Unidad>) => {
+    const unidad = repository.create(data);
+    return await repository.save(unidad);
+}
+
+export const eliminarUnidad = async (idUnidad: number) => {
+    return await repository.delete(idUnidad);
+}

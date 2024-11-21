@@ -11,6 +11,12 @@ export const listarSubsectoresBySector = async (idSector: number) => {
 
 export const listarSubsectores = async () => {
     return await repository.find({
-        where: { estadoAuditoria: '1' }
+        where: { estadoAuditoria: '1' },
+        relations: ['sector']
     });
+}
+
+export const insertarSubsector = async (data: Partial<Subsector>) => {
+    const subsector = repository.create(data);
+    return await repository.save(subsector);
 }

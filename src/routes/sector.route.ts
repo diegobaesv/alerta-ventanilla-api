@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { listarSectores } from '../controllers/sector.controller';
+import { insertarSector, listarSectores } from '../controllers/sector.controller';
 
 const router = Router();
 
 router.get('/',listarSectores);
+router.post('/',insertarSector);
 
 export default router;

@@ -12,3 +12,12 @@ export const listarSubsectoresBySector = async (req: Request, res: Response) => 
         return res.status(500).json(ResponseModel.error(error.message));
     }
 }
+
+export const insertarSubsector = async (req: Request, res: Response) => {
+    try {
+        const subsector = await subsectorService.insertarSubsector(req.body);
+        return res.json(ResponseModel.success(subsector));
+    } catch (error) {
+        return res.status(500).json(ResponseModel.error(error.message));
+    }
+}

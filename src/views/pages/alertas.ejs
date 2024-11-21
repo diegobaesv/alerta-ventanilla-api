@@ -1,0 +1,148 @@
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table  id="dataTable" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Id
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Estado Alerta
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Vecino
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Serenazgo
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Categoria
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Subcategoria
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Sector
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    SubSector
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Descripción
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Ubicación
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (!hasData) { %>
+                <tr  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <th scope="row" colspan="9"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        No se han encontrado registros
+                    </th>
+                </tr>
+        
+                <% } %>
+                    <% if (hasData) { %>
+                        <% for( let i=0; i < data.length; i++ ) { %>
+                            
+                                <tr
+                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <th scope="row"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <%= data[i].idAlerta %>
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <% if(data[i].estadoAlerta == 'P') { %>
+                                            <div class="bg-red-200 text-red-800 pr-2 pl-2 font-medium text-center rounded">PENDIENTE</div>
+                                        <% } %>
+                                        <% if(data[i].estadoAlerta == 'A') { %>
+                                            <div class="bg-yellow-200 text-yellow-800 pr-2 pl-2 font-medium text-center rounded">ATENDIENDO</div>
+                                        <% } %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        (<%= data[i].vecino.usuario.documentoIdentidad %>) <%= data[i].vecino.usuario.nombres %> <%= data[i].vecino.usuario.apellidoPaterno %> 
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex" style="min-width: 200px;">
+                                            <button id="btnRefresh_<%=i%>" class="hover:bg-gray-200 rounded" onclick="
+                                                const btnRefresh = document.getElementById('btnRefresh_<%=i%>');
+                                                const txtSerenazgo = document.getElementById('txtSerenazgo_<%=i%>');
+                                                const cbSerenazgos = document.getElementById('cbSerenazgos_<%=i%>');
+                                                const btnSave = document.getElementById('btnSave_<%=i%>');
+
+                                                txtSerenazgo.style.display = 'none';
+                                                cbSerenazgos.style.display = 'block';
+                                                btnSave.style.display = 'block';
+                                                btnRefresh.style.display = 'none';
+
+                                                cbSerenazgos.focus();
+                                                "><i class="text-xl bx bx-refresh"></i></button>
+                                            
+                                            <span id="txtSerenazgo_<%=i%>">
+                                                <% if(data[i].serenazgo) { %>
+                                                    <%= data[i].serenazgo.usuario.nombres %> <%= data[i].serenazgo.usuario.apellidoPaterno %>
+                                                <% } else { %>
+                                                    <span class="text-red-500">Sin asignar</span>
+                                                <% } %>
+                                            </span>
+                                            <select id="cbSerenazgos_<%=i%>" style="display: none;" name="dia" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                                <option value="">Seleccionar...</option>
+                                                <% for( let j=0; j < metadata.serenazgos.length; j++ ) { %>
+                                                    <option value="<%= metadata.serenazgos[j].idSerenazgo %>"><%= metadata.serenazgos[j].usuario.nombres %> <%= metadata.serenazgos[j].usuario.apellidoPaterno %></option>
+                                                <% } %>
+                                            </select>     
+                                            <button id="btnSave_<%=i%>" style="display: none;"  class="hover:bg-gray-200 rounded" onclick="
+                                                const btnSaveClick = async () => {
+                                                    const txtSerenazgo = document.getElementById('txtSerenazgo_<%=i%>');
+                                                    const cbSerenazgos = document.getElementById('cbSerenazgos_<%=i%>');
+                                                    const btnSave = document.getElementById('btnSave_<%=i%>');
+                                                    const btnRefresh = document.getElementById('btnRefresh_<%=i%>');
+
+                                                    const selectedSerenazgo = cbSerenazgos.options[cbSerenazgos.selectedIndex].value;
+
+                                                    if(selectedSerenazgo && selectedSerenazgo>0){
+                                                        await fetch('/api/v1/alertas/<%= data[i].idAlerta%>/sereno', {
+                                                            method: 'PUT',
+                                                            headers: {
+                                                                'Content-Type': 'application/json'
+                                                            },
+                                                            body: JSON.stringify({ serenazgo: {idSerenazgo: selectedSerenazgo} })
+                                                        });
+                                                        window.location.reload();
+                                                    }
+                                                };
+                                                
+                                                btnSaveClick();
+                                            "><i class="text-xl bx bx-save"></i></button> 
+                                        </div>
+                                        
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <%= data[i].categoria.nombre %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <%= data[i].subcategoria.nombre %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <%= data[i].subsector.sector.nombre %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <%= data[i].subsector.nombre %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <%= data[i].descripcion %>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <% if(data[i].latitud && data[i].longitud) { %>
+                                            <a href="https://www.google.com/maps/search/?api=1&query=<%= data[i].latitud %>,<%= data[i].longitud %>" target="_blank" class="text-blue-500 hover:text-blue-600">Google Map</a>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                        <% } %>
+                    <% } %>
+        </tbody>
+    </table>
+
+</div>

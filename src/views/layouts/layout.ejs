@@ -83,8 +83,16 @@
                     icon: 'bx bxs-wrench',
                     items: [
                         {
+                            name: 'Alertas',
+                            route: 'alertas'
+                        },
+                        {
                             name: 'Categorias',
                             route: 'categorias'
+                        },
+                        {
+                            name: 'Subcategorias',
+                            route: 'subcategorias'
                         },
                         {
                             name: 'Sectores',
@@ -93,6 +101,11 @@
                         {
                             name: 'Subsectores',
                             route: 'subsectores'
+                        }
+                        ,
+                        {
+                            name: 'Unidades',
+                            route: 'unidades'
                         }
                     ]
                 },
@@ -131,7 +144,6 @@
                         <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
                             <div id="error-layout" class="rounded p-1 mb-2 bg-red-200 text-red-900 text-center" style="display: none; opacity: 1; transition: opacity 2s ease-out; "></div>
                             <%- content %>
-                            
                         </div>
                     </main>
             </div>

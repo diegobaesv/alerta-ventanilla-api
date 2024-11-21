@@ -12,3 +12,12 @@ export const listarSubcategoriasByCategoria = async (req: Request, res: Response
         return res.status(500).json(ResponseModel.error(error.message));
     }
 }
+
+export const insertarSubcategoria = async (req: Request, res: Response) => {
+    try {
+        const subcategoria = await subcategoriaService.insertarSubcategoria(req.body);
+        return res.json(ResponseModel.success(subcategoria));
+    } catch (error) {
+        return res.status(500).json(ResponseModel.error(error.message));
+    }
+}

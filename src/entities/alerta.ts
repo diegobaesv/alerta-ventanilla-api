@@ -3,6 +3,7 @@ import { Vecino } from "./vecino";
 import { Subsector } from "./subsector";
 import { Categoria } from "./categoria";
 import { Serenazgo } from "./serenazgo";
+import { Subcategoria } from "./subcategoria";
 
 @Entity('alertas')
 export class Alerta {
@@ -20,6 +21,10 @@ export class Alerta {
   @ManyToOne(() => Categoria)
   @JoinColumn({ name: 'id_categoria' })
   categoria: Categoria;
+
+  @ManyToOne(() => Subcategoria)
+  @JoinColumn({ name: 'id_subcategoria' })
+  subcategoria: Subcategoria;
 
   @ManyToOne(() => Subsector)
   @JoinColumn({ name: 'id_subsector' })

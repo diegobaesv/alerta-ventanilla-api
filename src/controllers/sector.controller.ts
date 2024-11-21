@@ -11,3 +11,13 @@ export const listarSectores = async (req: Request, res: Response) => {
         return res.status(500).json(ResponseModel.error(error.message));
     }
 }
+
+export const insertarSector = async (req: Request, res: Response) => {
+    try {
+        const sectorData = req.body;
+        const nuevoSector = await sectorService.insertarSector(sectorData);
+        return res.json(ResponseModel.success(nuevoSector));
+    } catch (error) {
+        return res.status(500).json(ResponseModel.error(error.message));
+    }
+}

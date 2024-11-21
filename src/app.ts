@@ -10,6 +10,7 @@ import categoriaRoutes from './routes/categoria.route';
 import alertaRoutes from './routes/alerta.route';
 import subcategoriaRoutes from './routes/subcategoria.route';
 import serenazgoRoutes from './routes/serenazgo.route';
+import unidadRoutes from './routes/unidad.route';
 import viewRoutes from './routes/view.route';
 import path from 'path';
 
@@ -31,6 +32,7 @@ app.use('/api/v1/categorias', categoriaRoutes);
 app.use('/api/v1/alertas', alertaRoutes);
 app.use('/api/v1/subcategorias', subcategoriaRoutes);
 app.use('/api/v1/serenazgos', serenazgoRoutes);
+app.use('/api/v1/unidades', unidadRoutes);
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
