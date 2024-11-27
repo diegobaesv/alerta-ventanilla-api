@@ -58,7 +58,13 @@
                                             <div class="bg-red-200 text-red-800 pr-2 pl-2 font-medium text-center rounded">PENDIENTE</div>
                                         <% } %>
                                         <% if(data[i].estadoAlerta == 'A') { %>
-                                            <div class="bg-yellow-200 text-yellow-800 pr-2 pl-2 font-medium text-center rounded">ATENDIENDO</div>
+                                            <div class="bg-yellow-200 text-yellow-800 pr-2 pl-2 font-medium text-center rounded">ASIGNADO</div>
+                                        <% } %>
+                                        <% if(data[i].estadoAlerta == 'E') { %>
+                                            <div class="bg-blue-200 text-blue-800 pr-2 pl-2 font-medium text-center rounded">ATENDIENDO</div>
+                                        <% } %>
+                                        <% if(data[i].estadoAlerta == 'F') { %>
+                                            <div class="bg-green-200 text-green-800 pr-2 pl-2 font-medium text-center rounded">FINALIZADO</div>
                                         <% } %>
                                     </td>
                                     <td class="px-6 py-4">

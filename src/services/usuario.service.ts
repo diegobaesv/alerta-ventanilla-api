@@ -12,14 +12,18 @@ export const insertarUsuario = async (data: Partial<Usuario>): Promise<Usuario> 
 }
 
 export const login = async (documentoIdentidad: string, clave: string, tipoUsuario: string): Promise<Usuario> => {
+    console.log('documentoIdentidad',documentoIdentidad);
+    console.log('clave',clave);
+    console.log('tipoUsuario',tipoUsuario);
     const usuario =  await repository.findOne({
         where: { 
             documentoIdentidad: documentoIdentidad, 
             tipoUsuario: tipoUsuario, 
             estadoAuditoria: '1' 
         },
-        relations: ['vecino', 'vecino.subsector','vecino.usuario'] 
+        relations: ['vecino', 'vecino.subsector','vecino.usuario','serenazgo','serenazgo.subsector','serenazgo.usuario'] 
     });    
+    console.log('usuario',usuario);
     if (!usuario || !(await comparePassword(clave, usuario.clave))) {
         throw new Error('Usuario o contraseña incorrectos');
     }

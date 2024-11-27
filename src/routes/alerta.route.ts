@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import { asignarSereno, insertarAlerta } from '../controllers/alerta.controller';
+import { asignarSereno, cambiarEstadoAlerta, insertarAlerta, listarAlertasBySerenazgo } from '../controllers/alerta.controller';
 
 const router = Router();
 
 router.post('/',insertarAlerta);
 router.put('/:idAlerta/sereno',asignarSereno);
-
+router.get('/serenazgo/:idSerenazgo',listarAlertasBySerenazgo);
+router.put('/:idAlerta/estado',cambiarEstadoAlerta);
 export default router;

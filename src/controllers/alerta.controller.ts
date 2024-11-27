@@ -25,3 +25,26 @@ export const asignarSereno = async (req: Request, res: Response): Promise<Respon
         return res.status(500).json(ResponseModel.error(error.message));
     }
 }
+
+export const listarAlertasBySerenazgo = async (req: Request, res: Response): Promise<ResponseModel> => {
+    try {
+        const idSerenazgo = parseInt(req.params.idSerenazgo);
+        const alertas = await alertaService.listarAlertasBySerenazgo(idSerenazgo);
+        return res.json(ResponseModel.success(alertas));
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(ResponseModel.error(error.message));
+    }
+}
+
+export const cambiarEstadoAlerta = async (req: Request, res: Response): Promise<ResponseModel> => {
+    try {
+        const idAlerta = parseInt(req.params.idAlerta);
+        const { estadoAlerta } = req.body;
+        const alertaActualizada = await alertaService.cambiarEstadoAlerta(idAlerta, estadoAlerta);
+        return res.json(ResponseModel.success(alertaActualizada));
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(ResponseModel.error(error.message));
+    }
+}
