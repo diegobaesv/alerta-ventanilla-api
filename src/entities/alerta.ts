@@ -39,6 +39,9 @@ export class Alerta {
   @Column({ name: 'longitud' })
   longitud: string;
 
+  @Column({ name: 'imagen_base64' })
+  imagenBase64: string;
+
   @Column({ name: 'estado_alerta' })
   estadoAlerta: string;
 

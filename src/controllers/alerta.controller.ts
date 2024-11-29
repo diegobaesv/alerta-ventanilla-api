@@ -26,10 +26,22 @@ export const asignarSereno = async (req: Request, res: Response): Promise<Respon
     }
 }
 
+export const listarAlertasByVecino= async (req: Request, res: Response): Promise<ResponseModel> => {
+    try {
+        const idVecino = parseInt(req.params.idVecino);
+        const alertas = await alertaService.listarAlertasByVecino(idVecino);
+        return res.json(ResponseModel.success(alertas));
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(ResponseModel.error(error.message));
+    }
+}
+
 export const listarAlertasBySerenazgo = async (req: Request, res: Response): Promise<ResponseModel> => {
     try {
         const idSerenazgo = parseInt(req.params.idSerenazgo);
-        const alertas = await alertaService.listarAlertasBySerenazgo(idSerenazgo);
+        const completo = req.query.completo === 'true';
+        const alertas = await alertaService.listarAlertasBySerenazgo(idSerenazgo, completo);
         return res.json(ResponseModel.success(alertas));
     } catch (error) {
         console.log(error);

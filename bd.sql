@@ -140,3 +140,8 @@ INSERT INTO usuarios (documento_identidad, clave, apellido_paterno, apellido_mat
 ('88888888','$2b$10$UTQCbi5WOw2P4SqrcHjQT.3eQjeTS9KnUTEadxF/tzjXVlHkwdyCm','Admin','Admin','Admin','A');
 
 insert into unidades (nombre) values ('Unidad 1'),('Unidad 2');
+
+/*** BLOQUE III 28-11-2024 ****/
+
+alter table alertas 
+add imagen_base64 TEXT;

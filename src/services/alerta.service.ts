@@ -20,10 +20,19 @@ export const listarAlertas = async (): Promise<Alerta[]> => {
     });
 }
 
-export const listarAlertasBySerenazgo = async (idSerenazgo: number): Promise<Alerta[]> => {
-    //where estadoo alerta in A,P
+export const listarAlertasBySerenazgo = async (idSerenazgo: number, completo: boolean): Promise<Alerta[]> => {
+    const where = { serenazgo: { idSerenazgo } };
+    if (!completo) where['estadoAlerta'] = In(['A','E']);
     return await repository.find({
-        where: { serenazgo: { idSerenazgo: idSerenazgo }, estadoAlerta: In(['A','E']) },
+        where: where,
+        relations: ['vecino','serenazgo','vecino.usuario','serenazgo.usuario','categoria','subcategoria','subsector','subsector.sector'],
+        order: { fechaCreacion: 'DESC' }
+    });
+}
+
+export const listarAlertasByVecino = async (idVecino: number): Promise<Alerta[]> => {
+    return await repository.find({
+        where: { vecino: { idVecino }},
         relations: ['vecino','serenazgo','vecino.usuario','serenazgo.usuario','categoria','subcategoria','subsector','subsector.sector'],
         order: { fechaCreacion: 'DESC' }
     });
