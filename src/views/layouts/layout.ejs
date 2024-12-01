@@ -65,6 +65,16 @@
         <%- include('../partials/sidebar', 
             { items: [
                 {
+                    name: 'Alertas',
+                    icon: 'bx bx-bell',
+                    items: [
+                        {
+                            name: 'Alertas',
+                            route: 'alertas'
+                        },
+                    ]
+                },
+                {
                     name: 'Personal',
                     icon: 'bx bx-user',
                     items: [
@@ -82,10 +92,7 @@
                     name: 'Mantenimiento',
                     icon: 'bx bxs-wrench',
                     items: [
-                        {
-                            name: 'Alertas',
-                            route: 'alertas'
-                        },
+                        
                         {
                             name: 'Categorias',
                             route: 'categorias'

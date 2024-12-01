@@ -43,7 +43,7 @@ export const asignarSereno = async (idAlerta: number, data: Partial<Alerta>): Pr
     return await repository.findOne({ where: { idAlerta } });
 }
 
-export const cambiarEstadoAlerta = async (idAlerta: number, estadoAlerta: string): Promise<Alerta> => {
-    await repository.update(idAlerta, { estadoAlerta });
+export const actualizarAlerta = async (idAlerta: number, data: Partial<Alerta>): Promise<Alerta> => {
+    await repository.update(idAlerta, data);
     return await repository.findOne({ where: { idAlerta } });
 }

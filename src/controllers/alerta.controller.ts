@@ -49,11 +49,10 @@ export const listarAlertasBySerenazgo = async (req: Request, res: Response): Pro
     }
 }
 
-export const cambiarEstadoAlerta = async (req: Request, res: Response): Promise<ResponseModel> => {
+export const actualizarAlerta = async (req: Request, res: Response): Promise<ResponseModel> => {
     try {
         const idAlerta = parseInt(req.params.idAlerta);
-        const { estadoAlerta } = req.body;
-        const alertaActualizada = await alertaService.cambiarEstadoAlerta(idAlerta, estadoAlerta);
+        const alertaActualizada = await alertaService.actualizarAlerta(idAlerta, req.body);
         return res.json(ResponseModel.success(alertaActualizada));
     } catch (error) {
         console.log(error);
