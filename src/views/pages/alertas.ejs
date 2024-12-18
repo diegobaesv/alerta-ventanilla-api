@@ -12,6 +12,9 @@
                     Vecino
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Celular
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Serenazgo
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -71,6 +74,9 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         (<%= data[i].vecino.usuario.documentoIdentidad %>) <%= data[i].vecino.usuario.nombres %> <%= data[i].vecino.usuario.apellidoPaterno %> 
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <%= data[i].vecino.telefono %>
                                     </td>
                                     <td class="px-6 py-4">
                                         <% if(data[i].estadoAlerta == 'P' || data[i].estadoAlerta == 'A' ) { %>
